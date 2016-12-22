@@ -52,10 +52,10 @@ def install_patches():
             operation = '%s %s' % (operation,
                                    statement.split(' ', 1)[0].upper())
         span = utils.start_child_span(
-            operation_name=operation, parent=get_current_span())
+            operation_name=operation.encode("utf8"), parent=get_current_span())
         span.set_tag(ext_tags.SPAN_KIND, ext_tags.SPAN_KIND_RPC_CLIENT)
         if statement:
-            span.set_tag('sql', statement)
+            span.set_tag('sql', statement.encode("utf8"))
         context.opentracing_span = span
 
     @event.listens_for(Engine, 'after_cursor_execute')
